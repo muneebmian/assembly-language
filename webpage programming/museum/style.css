@@ -1,0 +1,32 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,700&display=swap');
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+</style>
+</style>
+hr {
+    border: none;
+    height: 150px;
+    /* Set the hr color */
+    background-color: rgba(0, 130, 120, 0.1);
+    /*margin: 10px;*/
+    font-size:10vw for view port
+}
+h1 {
+  
+  font-family: 'Montserrat', sans-serif;
+  font-size:50px;
+  font-weight:700;
+}
+p {
+  font-family: 'Montserrat', sans-serif;
+}
+figcaption {
+  font-family: 'Montserrat', sans-serif;
+}
+img {
+  font-family: 'Montserrat', sans-serif;
+}
+.logo_element{
+  font-family: 'Montserrat', sans-serif;
+}
