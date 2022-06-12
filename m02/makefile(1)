@@ -1,0 +1,13 @@
+default: main.o RSA.o
+	g++  main.o RSA.o -o M02
+
+main.o: main.cpp
+	g++ -c -Wall -std=c++14 main.cpp
+
+RSA.o: RSA.cpp
+	g++ -c -Wall -std=c++14 RSA.cpp
+run:
+	./M02
+
+clean:
+	rm *.o M02
