@@ -1,0 +1,60 @@
+What does HTML stand for?
+Hyper Trainer Marking Language
+Hyper Text Marketing Language
+Hyper Text Markup Language
+Hyper Text Markup Leveler
+3
+what are people who write compter code called?
+Professor
+Manfacturer
+Cryptographers
+Porgrammer or coders
+4
+What is (void*)0?
+Symbolize the NULL pointer
+Symbolize the void pointer
+Symbolize both, NULL & void pointer
+Many display error
+1
+Which of the following is a logical AND operator?
+&
+&&
+||
+None of the above
+2
+Which of the following is the correct way to use the standard namespace in C++?
+using namespace std;
+using namespace standard;
+using standard namespace;
+standard namespace used;
+1
+The invention of _______________ gave birth to the much cheaper micro computers.
+Mainframes
+Microcomputers
+Microprocessors
+PDAs
+4
+Given the enumeration defined by the following line, what is the value of UNBEATABLE ? enum difficulty {NOVICE=1, EASY, NORMAL, HARD, UNBEATABLE};
+2
+3
+4
+5
+4
+Which one is the result of the output given by a computer
+Data
+Istruction
+Information
+Excursion
+3
+Identify the device through which data and instructions are entered into a computer
+Software
+Output device
+Input device
+Memory
+3
+ ______________ are used for solving complex application such as Global Weather Forecasting.
+Super Computers
+Public computers
+Mobile computers
+Hybrid computers
+1

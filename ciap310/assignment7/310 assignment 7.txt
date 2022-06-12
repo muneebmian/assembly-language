@@ -1,0 +1,237 @@
+.586
+.MODEL FLAT
+
+INCLUDE io.h
+
+.STACK 4096
+
+.DATA
+number1		DWORD ?
+number2		DWORD ?
+userChoice	DWORD	?
+
+prompInfo		BYTE	"1: Add, 2: Subtract, 3: Multiply, 4: Divide, 5: Exit", 0
+
+prompt1			BYTE	"Enter number 1 to add", 0
+prompt2			BYTE	"Enter number 2 to add", 0
+
+promptsub1		BYTE	"Enter number 1 to Subtract", 0
+promptsub2		BYTE	"Enter number 2 to Subtract", 0
+
+promptmul1		BYTE	"Enter number 1 to Multiply", 0
+promptmul2		BYTE	"Enter number 2 to Multiply", 0
+
+promptdiv1		BYTE	"Enter number Dividend", 0
+promptdiv2		BYTE	"Enter number Divisor", 0
+
+string		BYTE	40 DUP (?)
+result	BYTE	11 DUP (?), 0
+
+outputLblsum	BYTE	"The Sum is", 0
+outputLblsub	BYTE	"The Subtraction is", 0
+outputLblmul	BYTE	"The Product is", 0
+outputLbldiv	BYTE	"The Quotient is", 0
+outputLbldivrem BYTE	"The Remainder is", 0
+
+outputLblsum2	BYTE	"Enter 0 to mov to other operation!",0
+
+.CODE
+
+_MainProc PROC
+
+	
+
+	doWhile:
+
+		input	prompInfo, string, 40
+		atod	string	
+		mov	userChoice, eax 
+
+		mov		eax,	userChoice
+			
+		cmp		eax,	1
+		je		dispSum2
+
+		cmp		eax,	2
+		je		dispSub2
+
+		cmp		eax,	3
+		je		dispMulti2
+
+		cmp		eax,	4
+		je		dispDiv2
+
+
+		cmp		eax,	5
+		jge		endWhile
+
+		jmp		doWhile
+
+	endWhile:
+
+		mov		eax,	0
+		ret
+
+_MainProc ENDP
+
+
+dispSum2  PROC
+
+		input	prompt1, string, 40	; prompt the user for the first number
+		atod	string	; convert to integer
+		mov	number1, eax 
+
+		input	prompt2, string, 40	; pompt the user for the second number
+		atod	string	; convert to integer
+		mov	number2, eax 	; store it in ecx
+
+		mov	eax, number1
+		mov	ebx, number2
+		call	sum2	; call the add2 procedure 
+
+		dtoa	result, eax 	; convert the RESULT to ASCII and store in "product"
+		output	outputLblsum, result  ; output the RESULT
+
+		call	_MainProc
+
+dispSum2   ENDP
+
+
+
+sum2   PROC         ; add two dwords passed on the stack
+       
+       mov    eax, number1
+       mov    ebx, number2
+
+       add   eax, ebx
+
+       ret                   ; return
+sum2   ENDP
+
+
+dispSub2  PROC
+
+
+	input	promptsub1, string, 40	; prompt the user for the first number
+	atod	string	; convert to integer
+	mov	number1, eax 
+
+	input	promptsub2, string, 40	; pompt the user for the second number
+	atod	string	; convert to integer
+	mov	number2, eax 	; store it in ecx
+
+	push number2
+	push number1
+	call	subt2	; call the add2 procedure 
+	add esp, 8      ; remove parametrs from stack
+
+	dtoa	result, eax 	; convert the RESULT to ASCII and store in "product"
+	output	outputLblsub, result  ; output the RESULT
+
+	call	_MainProc
+
+dispSub2   ENDP
+
+
+
+subt2   PROC         ; add two dwords passed on the stack
+
+       push   ebp            ; save EBP
+       mov    ebp,esp        ; establish stack frame
+       mov    eax,[ebp+8]    ; copy first parameter value
+       sub    eax,[ebp+12]   ; add second parameter value
+       
+
+       pop    ebp            ; restore EBP
+       ret                   ; return
+subt2   ENDP
+
+
+
+dispMulti2  PROC
+
+
+	input	promptmul1, string, 40	; prompt the user for the first number
+	atod	string	; convert to integer
+	mov	number1, eax 
+
+	input	promptmul2, string, 40	; pompt the user for the second number
+	atod	string	; convert to integer
+	mov	number2, eax 	; store it in ecx
+
+	mov	eax, number1
+	mov	ebx, number2
+	call	multi2	; call the add2 procedure 
+
+	dtoa	result, eax 	; convert the RESULT to ASCII and store in "product"
+	output	outputLblmul, result  ; output the RESULT
+
+	call	_MainProc
+
+dispMulti2   ENDP
+
+
+
+multi2   PROC         ; add two dwords passed on the stack
+
+       
+       mov    eax, number1
+       mov    ebx, number2
+
+       imul   eax, ebx
+
+       ret                   ; return
+multi2   ENDP
+
+
+
+dispDiv2  PROC
+
+
+	input	promptdiv1, string, 40	; prompt the user for the first number
+	atod	string	; convert to integer
+	mov	number1, eax 
+
+	input	promptdiv2, string, 40	; pompt the user for the second number
+	atod	string	; convert to integer
+	mov	number2, eax 	; store it in ecx
+
+	mov	edx, 0
+	mov	eax, number1
+	mov	ebx, number2
+	call	divi2	; call the add2 procedure 
+
+
+	dtoa	result, eax 	; convert the RESULT to ASCII and store in "product"
+	output	outputLbldiv, result  ; output the RESULT
+
+	dtoa	result, edx 
+	output	outputLbldivrem, result  ; output the RESULT
+
+	call	_MainProc
+
+dispDiv2   ENDP
+
+
+
+divi2   PROC         ; add two dwords passed on the stack
+       
+       mov    eax, number1
+	   mov	  ebx, 0
+       mov    ebx, number2
+
+	   cdq
+
+       div   ebx
+
+       ret                   ; return
+divi2  ENDP
+
+END
+
+
+
+
+
+
+

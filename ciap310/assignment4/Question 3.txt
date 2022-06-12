@@ -1,0 +1,31 @@
+; Number of Calories program
+
+.586
+.MODEL FLAT
+
+INCLUDE io.h            ; header file for input/output
+
+.STACK 4096
+
+.DATA 
+prompt BYTE    "Enter Number of cookies ate: ", 0
+string  BYTE    40 DUP (?)
+resultLbl BYTE  "Number of Calories: ", 0
+Calories     BYTE    11 DUP (?), 0
+
+.CODE
+_MainProc PROC
+        input   prompt, string, 40      ; read ASCII characters
+        atod    string					; convert to integer, and store in EAX register
+        
+       
+		imul	eax, 24					; multiply the current number in eax by 24
+		
+        dtoa    Calories, eax			; convert to ASCII characters and store in celsius variable
+        output  resultLbl, Calories		; output label and celsius temperature
+
+        mov     eax, 0  ; exit with return code 0
+        ret
+
+_MainProc ENDP
+END                             ; end of source code

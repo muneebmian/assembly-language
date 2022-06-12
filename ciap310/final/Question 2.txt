@@ -1,0 +1,81 @@
+.586
+
+.MODEL FLAT
+
+INCLUDE io.h
+
+.STACK 4096
+
+ 
+.DATA
+
+ 
+num1    DWORD ?
+
+array   DWORD 10 DUP (?)
+
+num2 DWORD ?
+
+ 
+prompt  BYTE  "Enter a number ", 0
+prompt1   BYTE  "Please enter a number to compare with the array: ", 0
+
+string  BYTE 40 DUP (?)
+
+ 
+
+resultLbl   BYTE "The no. of times the number occured: ", 0
+
+numberone   BYTE 11 DUP(?), 0
+
+ 
+
+.CODE
+
+_MainProc PROC
+
+          mov num1, 0
+          lea ebx, array
+          mov ecx,10
+
+          doWhile:	input	prompt, string, 40 ; prompt the user to enter number
+				atod 	string	; convert to integer
+				mov	[ebx], eax ; move user inputted number into the array element
+
+				add	ebx, 4	; point at next element 
+
+				loop	doWhile	; continue in the while loop
+
+          input prompt1, string, 40
+          atod string
+          mov  num2,eax
+
+          mov eax,0
+          lea ebx,array
+          mov ecx,10
+
+    add2si:
+            mov eax,[ebx]
+            add ebx,4
+
+            cmp eax, num2
+            jne numoccur
+            add num1,1
+            mov edx,num1
+
+    numoccur: 
+                loop add2si
+
+        dtoa    numberone, edx
+        output  resultLbl, numberone
+
+    ret
+_MainProc ENDP
+
+END
+
+
+
+
+
+

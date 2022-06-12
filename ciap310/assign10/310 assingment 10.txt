@@ -1,0 +1,66 @@
+
+.586
+.MODEL FLAT
+.STACK 4096
+INCLUDE io.h
+
+.DATA
+
+prompt			BYTE	"Enter a string", 0
+displayLbl		BYTE	"Concatinated string", 0
+string1			BYTE	100 DUP (?)
+string2			BYTE	100 DUP (?)
+stringCnt		BYTE    200 DUP (?)
+
+.CODE
+_MainProc PROC
+
+		call	stringConcatinate
+
+		mov		eax,	0
+		ret
+
+_MainProc ENDP
+
+;void	stringConcatinate(char* A, char* B)
+
+stringConcatinate	PROC
+			input prompt, string1, 100
+
+		  
+			lea		esi, string1
+			lea		edi, stringCnt
+			push	esi
+			push	edi
+
+			cld
+
+	strcopy1: 
+			cmp		BYTE PTR [esi], 0
+			je		StrInput2
+			movsb
+			loop	strcopy1
+
+	StrInput2:
+			pop	esi
+			input	prompt, string2, 100
+			lea	esi, string2
+			push	esi
+
+			cld
+	strcopy2: 
+			cmp	 BYTE PTR [esi], 0
+			je	 exit
+			movsb
+			loop	strcopy2
+	exit:
+			mov		BYTE PTR [edi], 0
+
+			pop		esi			
+			pop		edi						 
+
+			output	displayLbl, stringCnt
+
+			ret
+stringConcatinate	ENDP
+END

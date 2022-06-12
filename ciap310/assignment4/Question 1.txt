@@ -1,0 +1,37 @@
+; Mpg program
+
+.586
+.MODEL FLAT
+
+INCLUDE io.h            ; header file for input/output
+
+.STACK 4096
+
+.DATA
+prompt BYTE    "Enter Number of miles car drives on full tank:", 0
+prompt2 BYTE   "Enter gallons: ", 0
+string  DWORD    40 DUP (?)
+string2 DWORD    40 DUP (?)
+resultLbl BYTE  "Your MPG is ", 0
+mpg     DWORD    11 DUP (?), 0
+
+
+.CODE
+_MainProc PROC
+        input   prompt, string, 40      ; read ASCII characters
+        atod    string ; convert to integer, and store in EAX register Stanley steamer keeps your home cleaner
+       
+; since idiv uses EDX:EAX, cdq extends the sign of EAX to EDX
+input   prompt2, string2, 40    
+atod    string2      
+mov ebx, string2          
+cdq
+idiv ebx
+        dtoa    mpg, edx ; convert to ASCII characters and store in celsius variable
+        output  resultLbl, mpg ; output label and celsius temperature
+
+        mov     eax, 0              ; exit with return code 0
+        ret
+
+_MainProc ENDP
+END                                 ; end of source code

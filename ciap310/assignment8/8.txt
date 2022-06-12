@@ -1,0 +1,120 @@
+.586
+.MODEL FLAT
+
+INCLUDE io.h
+
+.STACK 4096
+
+.DATA
+array	DWORD	10 DUP (?)
+prompt  BYTE  "Enter a number", 0
+prompt2 BYTE    "Please Enter a number between 0 to 100", 0
+
+string	BYTE 40 DUP (?)
+result	BYTE	"Perfect Score Entered!", 0
+max		DWORD	0
+arraySize	DWORD	10
+counter		DWORD	0
+userNum		DWORD	0
+
+.CODE
+
+_MainProc PROC
+
+	call	numM
+	mov eax,0
+	ret
+
+_MainProc ENDP
+
+
+numM	PROC
+
+
+	lea		ebx,       array	; load array address into EBX register
+	mov 	ecx, arraySize     ; number of elements
+
+
+	doWhile1:
+
+	input	prompt, string, 40 ; prompt the user to enter number
+	atod 	string	; convert to integer
+
+
+
+	doWhile:
+
+			cmp		ecx,	0
+			je		quit
+
+            cmp     eax,    0
+            jl      repeatdoWhile
+
+            cmp     eax,    100
+            jg      repeatdoWhile
+
+			mov	[ebx], eax ; move user inputted number into the array element
+	
+			add	ebx, 4	; point at next element 
+
+			
+			loop	doWhile1
+
+
+	repeatdoWhile:
+	         cmp	ecx,	0
+			 je		quit
+            
+             input   prompt2, string, 40
+             atod    string
+
+			 mov	[ebx], eax
+			 add	ebx, 4
+
+             jmp     doWhile
+	quit:
+
+	
+	lea		ebx,	array
+	mov		edx,	arraySize
+	mov		max,	100       ; max score
+	mov		counter,  0
+
+	whileN:
+			
+			cmp		edx,	0
+			je		exit
+
+			mov		eax,	[ebx]
+			add		ebx,	4
+
+			cmp		eax,	max
+			je		repeatS
+
+
+    repeatS:
+			cmp		eax,	max
+			je		repeatL
+
+			dec		edx
+			loop	whileN
+
+	repeatL:
+
+
+			dec		edx
+			inc		counter
+			cmp		edx,	0
+			jne		whileN
+			
+			jmp		exit
+
+    exit:
+
+			dtoa	string,	counter
+			output	result,	string
+
+			ret
+
+numM	ENDP
+END

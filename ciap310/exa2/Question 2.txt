@@ -1,0 +1,42 @@
+
+.586
+.MODEL FLAT
+INCLUDE io.h
+.STACK 4096
+.DATA
+a1       DWORD 10, 25, 56, 80, 3
+a1Size   DWORD 5
+resultLbl   BYTE "Array:", 0
+revArray    BYTE 11 DUP(?), 0
+.CODE
+_MainProc PROC
+        call    RRRRRR
+        mov    eax,    0
+        ret
+_MainProc ENDP
+RRRRRR PROC
+          mov esi, OFFSET a1                        
+          mov edi, OFFSET a1 + SIZEOF a1 - TYPE a1  
+          mov ecx, LENGTHOF a1 / 2    
+          mov   ecx,    a1Size
+          doWhile:
+                cmp   ecx,    0
+                je    exit
+                mov eax, [esi]    
+                mov ebx, [edi]  
+                xchg eax, ebx     
+                mov [esi], ebx  
+                mov [edi], eax  
+                add esi, TYPE a1
+                sub edi, TYPE a1
+                dtoa    revArray, eax
+                output  resultLbl, revArray 
+                dec   ecx
+                jmp doWhile
+        exit:
+                mov    eax,    0
+                ret
+RRRRRR ENDP
+END
+
+

@@ -1,0 +1,46 @@
+.586
+.MODEL FLAT
+INCLUDE io.h            
+.STACK 4096
+.DATA 
+p1     BYTE    "Please enter the 1st number: ", 0
+p2     BYTE    "Please enter the 2nd number: ", 0
+n1        DWORD   ?
+n2        DWORD   ?
+string      BYTE    40 DUP (?)
+resultLbl   BYTE    "larger num: ", 0
+outString   BYTE    40 DUP (?), 0
+
+.CODE
+    macroName	MACRO n1, n2
+		    mov     eax, n1    
+		    cmp     eax, n2
+            jg      mi
+            jl      mx
+		    ENDM
+
+_MainProc PROC
+            input   p1, string, 40     
+            atod    string          
+            mov     n1, eax    
+            input   p2, string, 40      
+            atod    string
+            mov     n2, eax
+	        macroName  n1, n2
+    mi:    
+            mov     eax,    n1
+            dtoa    outString, eax        
+            output  resultLbl, outString  
+            jmp     exit
+    mx:
+            mov     eax, n2
+            dtoa    outString, eax        
+            output  resultLbl, outString  
+            jmp     exit
+
+    exit:
+            mov     eax, 0  
+            ret
+_MainProc ENDP
+END                 
+

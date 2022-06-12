@@ -1,0 +1,46 @@
+.586
+.MODEL FLAT
+INCLUDE io.h           
+.STACK 4096
+.DATA 
+
+    firstNumberPrompt                 BYTE         "Please Enter the First Number ?"                               ,   0
+    secondNumberPrompt                BYTE         "Please Enter the Second Number?"                               ,   0
+
+    firstNumberSwap                   BYTE         "Now First Number after Swap is:  "                             ,   0
+    secondNumberSwap                  BYTE         "Now Second Number after Swap is: "                             ,   0
+    
+    string                           BYTE          40 DUP (?)
+    swapOne                          BYTE          11 DUP (?)                                                      ,   0
+    swapTwo                          BYTE          11 DUP (?)                                                      ,   0
+
+    firstNumber                     DWORD                  ?
+    secondNumber                    DWORD                  ?
+   
+.CODE
+_MainProc PROC
+
+    input firstNumberPrompt, string, 40
+    atod string
+    mov firstNumber, eax
+
+    input secondNumberPrompt, string, 40
+    atod string
+    mov secondNumber, eax
+
+    
+    mov eax, firstNumber
+    mov ebx, secondNumber
+  
+    mov ecx, eax
+    mov eax, ebx
+    mov ebx, ecx
+
+    dtoa swapOne, eax
+    output firstNumberSwap, swapOne
+    dtoa swapTwo, ebx
+    output secondNumberSwap, swapTwo
+    mov eax, 0
+    ret
+_MainProc ENDP
+END                             

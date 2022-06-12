@@ -1,0 +1,97 @@
+.586
+.MODEL FLAT
+
+INCLUDE io.h
+
+.STACK 4096
+
+.DATA
+array	DWORD	5 DUP (?)
+prompt  BYTE  "Enter a number", 0
+prompt1  BYTE  "Enter Array's Size", 0
+prompt2  BYTE  "Enter number N", 0
+
+string	BYTE 40 DUP (?)
+result	BYTE	"Number greater than N", 0
+max		DWORD	0
+arraySize	DWORD	0
+
+
+.CODE
+
+_MainProc PROC
+
+	call	numG
+	mov eax,0
+	ret
+_MainProc ENDP
+
+numG	PROC
+    input	prompt1, string, 40 
+	atod 	string
+	mov		arraySize,	eax
+
+	input	prompt2, string, 40 
+	atod 	string
+	mov		max,	eax
+
+
+	lea		ebx,       array	; load array address into EBX register
+	mov 	ecx, arraySize     ; number of elements
+
+	doWhile:	
+			
+			input	prompt, string, 40 ; prompt the user to enter number
+
+			atod 	string	; convert to integer
+
+
+			mov	[ebx], eax ; move user inputted number into the array element
+	
+			add	ebx, 4	; point at next element 
+
+			
+			loop	doWhile
+
+	
+	lea		ebx,	array
+	mov		edx,	arraySize
+
+	whileN:
+			
+
+			cmp		edx,	0
+			je		exit
+
+			mov		eax,	[ebx]
+			add		ebx,	4
+
+			cmp		max,	eax
+			jg		repeatS
+
+
+    repeatS:
+			cmp		max,	eax
+			jl		repeatL
+
+			dec		edx
+
+			loop	whileN
+
+	repeatL:
+			dtoa	string,	eax
+			output	result,	string
+
+			dec		edx
+			cmp		edx,	0
+			jne		whileN
+			
+			jmp		exit
+
+    exit:
+
+			mov eax,0
+			ret
+
+numG	ENDP
+END

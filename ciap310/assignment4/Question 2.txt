@@ -1,0 +1,44 @@
+; Monthly to yearly cost program
+
+
+.586
+.MODEL FLAT
+
+INCLUDE io.h            ; header file for input/output
+
+.STACK 4096
+
+.DATA 
+number1 DWORD   ?
+number2 DWORD   ?
+prompt1 BYTE    "Enter monthly cost for rent: ", 0
+prompt2 BYTE    "Enter monthly cost for telephone bill: ", 0
+string  BYTE    40 DUP (?)
+resultLbl BYTE  "The yearly and monthly cost is: ", 0
+resultLbl2 BYTE "Monthly Cost is: ", 0
+yearlyCost    BYTE    11 DUP (?), 0
+monthlyCost   DWORD    11 DUP (?), 0
+
+.CODE
+_MainProc PROC
+        input   prompt1, string, 40      ; read ASCII characters
+        atod    string          ; convert to integer
+        mov     number1, eax    ; store in memory
+
+        input   prompt2, string, 40      ; repeat for second number
+        atod    string
+        mov     number2, eax
+        
+        mov     eax, number1    ; first number to EAX
+        add     eax, number2    ; add second number
+  
+        imul    eax, 12
+    
+        dtoa    yearlyCost, eax        ; convert to ASCII characters
+        output  resultLbl, yearlyCost  ; output label and yearly cost
+        
+
+        mov     eax, 0  ; exit with return code 0
+        ret
+_MainProc ENDP
+END                             ; end of source code

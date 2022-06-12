@@ -1,0 +1,76 @@
+
+.586
+.MODEL FLAT
+INCLUDE io.h           
+.STACK 4096
+.DATA 
+
+    readNumPrompt            BYTE         "Please Enter a Number?"                               ,   0
+    largestPrompt            BYTE         "The Largest Number of those Ten numbers is: "         ,   0
+    
+    string                   BYTE          40 DUP (?)
+    largest                  BYTE          11 DUP (?)                                            ,   0
+
+    max                      DWORD                 ?
+    readNum                  DWORD                 ?
+    counter                  DWORD                 10
+
+
+
+.CODE
+_MainProc PROC
+
+
+        mov ebx,0                                               
+        mov ecx,0                                                
+
+
+forLoop:    cmp ebx, counter                                     
+            jnl endForLoop   
+
+            input readNumPrompt, string, 40     
+            atod  string          
+            mov   readNum,eax                                     
+        
+            inc ebx                                             
+
+            cmp eax,ecx                                           
+            jnl firstCheck  
+            jmp forLoop
+endForLoop:
+
+
+
+firstCheck:  cmp ebx, counter                                     
+             jnl secondCheck
+
+             mov ecx, readNum                                              
+             mov max, ecx                                                  
+             jmp forLoop
+    
+
+
+secondCheck: cmp eax, ecx                                                
+             jnl insideCheck
+
+
+
+insideCheck: cmp eax, ecx                                           
+             jng print  
+             
+             mov ecx, readNum                                         
+             mov max, ecx                                         
+
+print:
+            mov  eax, max
+            dtoa largest, eax		
+            output largestPrompt, largest	
+            jmp exit
+
+
+       
+ exit :     mov eax, 0  
+            ret
+
+_MainProc ENDP
+END                             
